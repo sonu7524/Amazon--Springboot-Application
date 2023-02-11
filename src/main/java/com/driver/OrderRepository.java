@@ -119,7 +119,7 @@ public class OrderRepository {
         deliveryPartnerMap.remove(partnerId);
         orderPartnerPair.remove(partnerId);
         for(String orderid : partnerAssignOrderPair.keySet()){
-            if(partnerAssignOrderPair.get(orderid) == partnerId) partnerAssignOrderPair.remove(orderid);
+            if(partnerAssignOrderPair.get(orderid).equals(partnerId)) partnerAssignOrderPair.remove(orderid);
         }
     }
 }
