@@ -86,16 +86,32 @@ public class OrderRepository {
     }
 
     public String getLastDeliveryTimeByPartnerId(String partnerId) {
-        List<String> orders = orderPartnerPair.get(partnerId);
-        int maxDeliveryTime =0;
-        for(String orderid : orders){
-            Order order = orderMap.get(orderid);
-            maxDeliveryTime = Math.max(maxDeliveryTime,order.getDeliveryTime());
+        String time = "";
+        List<String> list = orderPartnerPair.get(partnerId);
+        int deliveryTime = 0;
+        for (String s : list) {
+            Order order = orderMap.get(s);
+            deliveryTime = Math.max(deliveryTime, order.getDeliveryTime());
         }
-        if(maxDeliveryTime/60 < 10 && maxDeliveryTime%60 > 9) return "0"+Integer.toString(maxDeliveryTime/60)+":"+Integer.toString(maxDeliveryTime%60);
-        else if(maxDeliveryTime/60 < 10 && maxDeliveryTime%60 < 10) return "0"+Integer.toString(maxDeliveryTime/60)+":0"+Integer.toString(maxDeliveryTime%60);
-        else if(maxDeliveryTime/60 > 10 && maxDeliveryTime%60 < 10) return Integer.toString(maxDeliveryTime/60)+":0"+Integer.toString(maxDeliveryTime%60);
-        return Integer.toString(maxDeliveryTime/60)+":"+Integer.toString(maxDeliveryTime%60);
+        int hour = deliveryTime / 60;
+        String sHour = "";
+        if (hour < 10) {
+            sHour = "0" + String.valueOf(hour);
+        } else {
+            sHour = String.valueOf(hour);
+        }
+
+        int min = deliveryTime % 60;
+        String sMin = "";
+        if (min < 10) {
+            sMin = "0" + String.valueOf(min);
+        } else {
+            sMin = String.valueOf(min);
+        }
+
+        time = sHour + ":" + sMin;
+
+        return time;
     }
 
     public void deleteOrderById(String orderId) {
@@ -111,9 +127,9 @@ public class OrderRepository {
 
     public void deletePartnerById(String partnerId) {
         deliveryPartnerMap.remove(partnerId);
-        orderPartnerPair.remove(partnerId);
         for(String orderid : partnerAssignOrderPair.keySet()){
-            if(partnerAssignOrderPair.get(orderid) == partnerId) partnerAssignOrderPair.remove(orderid);
+            if(partnerAssignOrderPair.get(orderid).equals(partnerId)) partnerAssignOrderPair.remove(orderid);
         }
+        orderPartnerPair.remove(partnerId);
     }
 }
