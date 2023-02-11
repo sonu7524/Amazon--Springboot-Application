@@ -92,10 +92,10 @@ public class OrderRepository {
             Order order = orderMap.get(orderid);
             maxDeliveryTime = Math.max(maxDeliveryTime,order.getDeliveryTime());
         }
-        if(maxDeliveryTime/60 < 10 && maxDeliveryTime%60 > 9) return "0"+Integer.toString(maxDeliveryTime/60)+":"+Integer.toString(maxDeliveryTime%60);
-        else if(maxDeliveryTime/60 < 10 && maxDeliveryTime%60 < 10) return "0"+Integer.toString(maxDeliveryTime/60)+":0"+Integer.toString(maxDeliveryTime%60);
-        else if(maxDeliveryTime/60 > 10 && maxDeliveryTime%60 < 10) return Integer.toString(maxDeliveryTime/60)+":0"+Integer.toString(maxDeliveryTime%60);
-        return Integer.toString(maxDeliveryTime/60)+":"+Integer.toString(maxDeliveryTime%60);
+        if(maxDeliveryTime/60 < 10 && maxDeliveryTime%60 > 9) return "0"+String.valueOf(maxDeliveryTime/60)+":"+String.valueOf(maxDeliveryTime%60);
+        if(maxDeliveryTime/60 < 10 && maxDeliveryTime%60 < 10) return "0"+String.valueOf(maxDeliveryTime/60)+":0"+String.valueOf(maxDeliveryTime%60);
+        if(maxDeliveryTime/60 > 9 && maxDeliveryTime%60 < 10) return String.valueOf(maxDeliveryTime/60)+":0"+String.valueOf(maxDeliveryTime%60);
+        return String.valueOf(maxDeliveryTime/60)+":"+String.valueOf(maxDeliveryTime%60);
     }
 
     public void deleteOrderById(String orderId) {
